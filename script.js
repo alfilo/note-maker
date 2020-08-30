@@ -4,7 +4,8 @@ var CLIENT_ID = '<YOUR_CLIENT_ID>';
 var API_KEY = '<YOUR_API_KEY>';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ['https://docs.googleapis.com/$discovery/rest?version=v1'];
+var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+    'https://docs.googleapis.com/$discovery/rest?version=v1'];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
@@ -53,7 +54,7 @@ function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
-        printDocTitle();
+        findDocs(DOC_TITLE, printDocInfo);
         createDoc(DOC_TITLE);
     } else {
         authorizeButton.style.display = 'block';
@@ -88,32 +89,60 @@ function appendPre(message) {
 }
 
 /**
- * Print the title of a sample doc:
- * https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
+ * Print names and IDs of each document in files.
  */
-function printDocTitle() {
-    gapi.client.docs.documents.get({
-        documentId: '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE'
-    }).then(function (response) {
-        var doc = response.result;
-        var title = doc.title;
-        appendPre('Document "' + title + '" successfully found.\n');
-    }, function (response) {
-        appendPre('Error: ' + response.result.error.message);
-    });
+function printDocInfo(files) {
+    appendPre('Matching documents:\n');
+    if (files && files.length > 0) {
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            appendPre(`Document ${i}: "${file.name}" (${file.id})`);
+        }
+    } else {
+        appendPre('No matching documents found.');
+    }
 }
 
 /**
- * Create a new document with title docTitle.
+ * Find all documents with given title.
  */
-function createDoc(docTitle) {
+function findDocs(title, callback) {
+    var retrievePageOfFiles = function (request, result) {
+        request.execute(function (resp) {
+            result = result.concat(resp.files);
+            var nextPageToken = resp.nextPageToken;
+            if (nextPageToken) {
+                request = gapi.client.drive.files.list({
+                    'pageToken': nextPageToken,
+                    q: `name='${title}'`,
+                    'pageSize': 10,
+                    'fields': "nextPageToken, files(id, name)"
+                });
+                retrievePageOfFiles(request, result);
+            } else {
+                callback(result);
+            }
+        });
+    }
+    var initialRequest = gapi.client.drive.files.list({
+        q: `name='${title}'`,
+        'pageSize': 10,
+        'fields': "nextPageToken, files(id, name)"
+    });
+    retrievePageOfFiles(initialRequest, []);
+}
+
+/**
+ * Create a new document with given title.
+ */
+function createDoc(title) {
     gapi.client.docs.documents.create({
-        title: docTitle
+        title: title
     }).then(function (response) {
         var doc = response.result;
         var title = doc.title;
-        appendPre('Document "' + title + '" successfully created with ID ' +
-            doc.documentId + '.\n');
+        var id = doc.documentId;
+        appendPre(`Document "${title}" created with ID ${id}.\n`);
     }, function (response) {
         appendPre('Error: ' + response.result.error.message);
     });
