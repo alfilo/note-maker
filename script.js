@@ -54,8 +54,14 @@ function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
-        findDocs(DOC_TITLE, printDocInfo);
-        createDoc(DOC_TITLE);
+
+        findDocs(DOC_TITLE).then(function (files) {
+            printDocInfo(files);
+        });
+
+        createDoc(DOC_TITLE).then(function (docId) {
+            // Work with docId
+        });
     } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
@@ -106,43 +112,46 @@ function printDocInfo(files) {
 /**
  * Find all documents with given title.
  */
-function findDocs(title, callback) {
-    var retrievePageOfFiles = function (request, result) {
-        request.execute(function (resp) {
-            result = result.concat(resp.files);
-            var nextPageToken = resp.nextPageToken;
+function findDocs(title) {
+    return new Promise(function (resolve, reject) {
+        var retrievePageOfFiles = function (promise, answer) {
+            promise.then(function (response) {
+                answer = answer.concat(response.result.files);
+                var nextPageToken = response.result.nextPageToken;
             if (nextPageToken) {
-                request = gapi.client.drive.files.list({
+                    promise = gapi.client.drive.files.list({
                     'pageToken': nextPageToken,
                     q: `name='${title}'`,
                     'pageSize': 10,
                     'fields': "nextPageToken, files(id, name)"
                 });
-                retrievePageOfFiles(request, result);
+                    retrievePageOfFiles(promise, answer);
             } else {
-                callback(result);
+                    resolve(answer);
             }
         });
     }
-    var initialRequest = gapi.client.drive.files.list({
+        var initialPromise = gapi.client.drive.files.list({
         q: `name='${title}'`,
         'pageSize': 10,
         'fields': "nextPageToken, files(id, name)"
     });
-    retrievePageOfFiles(initialRequest, []);
+        retrievePageOfFiles(initialPromise, []);
+    });
 }
 
 /**
  * Create a new document with given title.
  */
 function createDoc(title) {
-    gapi.client.docs.documents.create({
+    return gapi.client.docs.documents.create({
         title: title
     }).then(function (response) {
         var doc = response.result;
         var title = doc.title;
         var id = doc.documentId;
         appendPre(`Document "${title}" created with ID ${id}.\n`);
+        return id;
     }, function (response) {
         appendPre('Error: ' + response.result.error.message);
     });
