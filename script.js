@@ -9,10 +9,10 @@ var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/res
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/drive.file";
+var SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 // The title of the notes document
-var DOC_TITLE = "Note Maker Notes";
+var DOC_TITLE = 'Note Maker Notes';
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
@@ -120,10 +120,10 @@ function findDocs(title) {
                 var nextPageToken = response.result.nextPageToken;
             if (nextPageToken) {
                     promise = gapi.client.drive.files.list({
-                    'pageToken': nextPageToken,
+                        pageToken: nextPageToken,
                     q: `name='${title}'`,
-                    'pageSize': 10,
-                    'fields': "nextPageToken, files(id, name)"
+                        pageSize: 10,
+                        fields: 'nextPageToken, files(id, name)'
                 });
                     retrievePageOfFiles(promise, answer);
             } else {
@@ -133,8 +133,8 @@ function findDocs(title) {
     }
         var initialPromise = gapi.client.drive.files.list({
         q: `name='${title}'`,
-        'pageSize': 10,
-        'fields': "nextPageToken, files(id, name)"
+            pageSize: 10,
+            fields: 'nextPageToken, files(id, name)'
     });
         retrievePageOfFiles(initialPromise, []);
     });
