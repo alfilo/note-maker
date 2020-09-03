@@ -54,14 +54,7 @@ function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
-
-        findDocs(DOC_TITLE).then(function (files) {
-            printDocInfo(files);
-        });
-
-        createDoc(DOC_TITLE).then(function (docId) {
-            // Work with docId
-        });
+        findOrCreateDoc(DOC_TITLE);
     } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
@@ -156,5 +149,52 @@ function createDoc(title) {
         return id;
     }, function (response) {
         appendPre('Error (create): ' + response.result.error.message);
+    });
+}
+
+/**
+ * Find or create a single document with given title.
+ * Complain, if there is more than one such document.
+ */
+function findOrCreateDoc(title) {
+    findDocs(title).then(function (files) {
+        if (files.length == 0) {
+            createDoc(title).then(function (docId) {
+                addNotesToDoc(docId);
+            });
+        } else if (files.length == 1) {
+            // Add to existing file
+            printDocInfo(files);
+            addNotesToDoc(files[0].id);
+        } else {
+            // Complain; too many files
+            appendPre('Error: too many matching documents; please delete all but one');
+            printDocInfo(files);
+        }
+    });
+}
+
+/**
+ * Append notes to end of file with a header for the URL.
+ */
+function addNotesToDoc(docId) {
+    // Make a test request
+    return gapi.client.docs.documents.batchUpdate({
+        documentId: docId,
+        resource: {
+            requests: [
+                {
+                    insertText: {
+                        text: `The current time is ${new Date()}.\n`,
+                        // Body: no segmentId treated as 'segmentId: ""'
+                        endOfSegmentLocation: {}  // end of body
+                    }
+                }
+            ]
+        }
+    }).then(function (response) {
+        appendPre(`Added content to doc with id ${docId}`);
+    }, function (response) {
+        appendPre(`Error (batchUpdate for ${docId}): ${response.result.error.message}`);
     });
 }
