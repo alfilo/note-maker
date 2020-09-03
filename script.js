@@ -121,7 +121,7 @@ function findDocs(title) {
             if (nextPageToken) {
                     promise = gapi.client.drive.files.list({
                         pageToken: nextPageToken,
-                    q: `name='${title}'`,
+                        q: `name = '${title}' and trashed = false`,
                         pageSize: 10,
                         fields: 'nextPageToken, files(id, name)'
                 });
@@ -129,10 +129,12 @@ function findDocs(title) {
             } else {
                     resolve(answer);
             }
-        });
+            }), function (response) {
+                appendPre('Error (list): ' + response.result.error.message);
+            };
     }
         var initialPromise = gapi.client.drive.files.list({
-        q: `name='${title}'`,
+            q: `name = '${title}' and trashed = false`,
             pageSize: 10,
             fields: 'nextPageToken, files(id, name)'
     });
@@ -153,6 +155,6 @@ function createDoc(title) {
         appendPre(`Document "${title}" created with ID ${id}.\n`);
         return id;
     }, function (response) {
-        appendPre('Error: ' + response.result.error.message);
+        appendPre('Error (create): ' + response.result.error.message);
     });
 }
