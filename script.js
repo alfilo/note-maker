@@ -175,7 +175,7 @@ function findOrCreateDoc(title) {
 }
 
 /**
- * Append notes to end of file with a header for the URL.
+ * Insert notes at the start of document (with a header for the URL).
  */
 function addNotesToDoc(docId) {
     // Make a test request
@@ -185,9 +185,22 @@ function addNotesToDoc(docId) {
             requests: [
                 {
                     insertText: {
-                        text: `The current time is ${new Date()}.\n`,
-                        // Body: no segmentId treated as 'segmentId: ""'
-                        endOfSegmentLocation: {}  // end of body
+                        text: `Normal text: current time is ${new Date()}.\n`,
+                        location: {   // No segmentId is body
+                            index: 1  // Treated as 'segmentId: ""'
+                        }
+                    }
+                },
+                {
+                    updateParagraphStyle: {
+                        paragraphStyle: {
+                            namedStyleType: "NORMAL_TEXT"
+                        },
+                        range: {
+                            startIndex: 1,  // No segmentId is body
+                            endIndex: 1     // Treated as 'segmentId: ""'
+                        },
+                        fields: "namedStyleType"
                     }
                 }
             ]
