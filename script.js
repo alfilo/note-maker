@@ -202,6 +202,46 @@ function addNotesToDoc(docId) {
                         },
                         fields: "namedStyleType"
                     }
+                },
+                {
+                    insertText: {
+                        text: `Heading 2\n`,
+                        location: {   // No segmentId is body
+                            index: 1  // Treated as 'segmentId: ""'
+                        }
+                    }
+                },
+                {
+                    updateParagraphStyle: {
+                        paragraphStyle: {
+                            namedStyleType: "HEADING_2"
+                        },
+                        range: {
+                            startIndex: 1,  // No segmentId is body
+                            endIndex: 1     // Treated as 'segmentId: ""'
+                        },
+                        fields: "namedStyleType"
+                    }
+                },
+                {
+                    insertText: {
+                        text: `Heading 1\n`,
+                        location: {   // No segmentId is body
+                            index: 1  // Treated as 'segmentId: ""'
+                        }
+                    }
+                },
+                {
+                    updateParagraphStyle: {
+                        paragraphStyle: {
+                            namedStyleType: "HEADING_1"
+                        },
+                        range: {
+                            startIndex: 1,  // No segmentId is body
+                            endIndex: 1     // Treated as 'segmentId: ""'
+                        },
+                        fields: "namedStyleType"
+                    }
                 }
             ]
         }
