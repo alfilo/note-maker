@@ -1,4 +1,3 @@
-
 // (OAuth 2.0) Client ID and API key from the Developer Console
 var CLIENT_ID = '<YOUR_CLIENT_ID>';
 var API_KEY = '<YOUR_API_KEY>';
@@ -178,76 +177,60 @@ function findOrCreateDoc(title) {
  * Insert notes at the start of document (with a header for the URL).
  */
 function addNotesToDoc(docId) {
-    // Make a test request
-    return gapi.client.docs.documents.batchUpdate({
-        documentId: docId,
-        resource: {
-            requests: [
-                {
-                    insertText: {
-                        text: `Normal text: current time is ${new Date()}.\n`,
-                        location: {   // No segmentId is body
-                            index: 1  // Treated as 'segmentId: ""'
+    // Configure AJAX requests to go through CORS Anywhere proxy
+    $.ajaxPrefilter(function (options) {
+        if (options.crossDomain && $.support.cors) {
+            options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+            options.crossDomain = false;
                         }
-                    }
-                },
-                {
-                    updateParagraphStyle: {
-                        paragraphStyle: {
-                            namedStyleType: "NORMAL_TEXT"
-                        },
-                        range: {
-                            startIndex: 1,  // No segmentId is body
-                            endIndex: 1     // Treated as 'segmentId: ""'
-                        },
-                        fields: "namedStyleType"
-                    }
-                },
-                {
-                    insertText: {
-                        text: `Heading 2\n`,
-                        location: {   // No segmentId is body
-                            index: 1  // Treated as 'segmentId: ""'
-                        }
-                    }
-                },
-                {
-                    updateParagraphStyle: {
-                        paragraphStyle: {
-                            namedStyleType: "HEADING_2"
-                        },
-                        range: {
-                            startIndex: 1,  // No segmentId is body
-                            endIndex: 1     // Treated as 'segmentId: ""'
-                        },
-                        fields: "namedStyleType"
-                    }
-                },
-                {
-                    insertText: {
-                        text: `Heading 1\n`,
-                        location: {   // No segmentId is body
-                            index: 1  // Treated as 'segmentId: ""'
-                        }
-                    }
-                },
-                {
-                    updateParagraphStyle: {
-                        paragraphStyle: {
-                            namedStyleType: "HEADING_1"
-                        },
-                        range: {
-                            startIndex: 1,  // No segmentId is body
-                            endIndex: 1     // Treated as 'segmentId: ""'
-                        },
-                        fields: "namedStyleType"
-                    }
-                }
-            ]
-        }
-    }).then(function (response) {
-        appendPre(`Added content to doc with id ${docId}`);
-    }, function (response) {
-        appendPre(`Error (batchUpdate for ${docId}): ${response.result.error.message}`);
     });
+
+    // Get contents of URL, and add summary into document w/ docId
+    $.get('https://en.wikipedia.org/wiki/Cross-origin_resource_sharing',
+        function (data) {
+            var headingMap = {H1: 'HEADING_1', H2: 'HEADING_2', H3: 'HEADING_3'};
+            // $($.parseHTML(data)) is safer than $(data) with spaces, etc.
+            // context is null: use new document; keepScripts is false
+            var $data = $($.parseHTML(data, null, false));
+            var $headings = $data.find('h1, h2, h3');
+
+            // Make an array of requests in reverse order, so we always
+            // insert text at the beginning and then modify its styling
+            var requests = $headings.map(function () {
+                var itRequests = {
+                    insertText: {
+                        text: this.textContent.trim() + '\n',
+                        location: {   // No segmentId is body
+                            index: 1  // Treated as 'segmentId: ""'
+                        }
+                    }
+                };
+                var upsRequests = {
+                    updateParagraphStyle: {
+                        paragraphStyle: {
+                            namedStyleType: headingMap[this.tagName]
+                        },
+                        range: {
+                            startIndex: 1,  // No segmentId is body
+                            endIndex: 1     // Treated as 'segmentId: ""'
+                        },
+                        fields: "namedStyleType"
+                    }
+                };
+                return [upsRequests, itRequests];
+            }).get().reverse();
+
+            // Make a batchUpdate call containing the collected requests
+            gapi.client.docs.documents.batchUpdate({
+                documentId: docId,
+                resource: {
+                    requests: requests
+                }
+            }).then(function (response) {
+                appendPre(`Added content to doc with id ${docId}`);
+            }, function (response) {
+                appendPre(`Error (batchUpdate for ${docId}): ${response.result.error.message}`);
+            });
+        }
+    );
 }
