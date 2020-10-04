@@ -110,26 +110,26 @@ function findDocs(title) {
             promise.then(function (response) {
                 answer = answer.concat(response.result.files);
                 var nextPageToken = response.result.nextPageToken;
-            if (nextPageToken) {
+                if (nextPageToken) {
                     promise = gapi.client.drive.files.list({
                         pageToken: nextPageToken,
                         q: `name = '${title}' and trashed = false`,
                         pageSize: 10,
                         fields: 'nextPageToken, files(id, name)'
-                });
+                    });
                     retrievePageOfFiles(promise, answer);
-            } else {
+                } else {
                     resolve(answer);
-            }
+                }
             }), function (response) {
                 appendPre('Error (list): ' + response.result.error.message);
             };
-    }
+        }
         var initialPromise = gapi.client.drive.files.list({
             q: `name = '${title}' and trashed = false`,
             pageSize: 10,
             fields: 'nextPageToken, files(id, name)'
-    });
+        });
         retrievePageOfFiles(initialPromise, []);
     });
 }
@@ -182,7 +182,7 @@ function addNotesToDoc(docId) {
         if (options.crossDomain && $.support.cors) {
             options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
             options.crossDomain = false;
-                        }
+        }
     });
 
     // Get contents of URL, and add summary into document w/ docId
