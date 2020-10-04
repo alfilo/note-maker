@@ -13,8 +13,8 @@ var SCOPES = 'https://www.googleapis.com/auth/drive.file';
 // The title of the notes document
 var DOC_TITLE = 'Note Maker Notes';
 
-var authorizeButton = document.getElementById('authorize_button');
-var signoutButton = document.getElementById('signout_button');
+var authorizeButton = document.getElementById('authorize-button');
+var signoutButton = document.getElementById('signout-button');
 
 /**
  *  On load, called to load the auth2 library and API client library.
