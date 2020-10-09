@@ -10,11 +10,13 @@ var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/res
 // included, separated by spaces.
 var SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
-// The title of the notes document
+// The title and ID of the notes document
 var DOC_TITLE = 'Note Maker Notes';
+var documentId;
 
 var authorizeButton = document.getElementById('authorize-button');
 var signoutButton = document.getElementById('signout-button');
+var urlForm = document.getElementById('url-form');
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -57,6 +59,7 @@ function updateSigninStatus(isSignedIn) {
     } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
+        urlForm.style.display = 'none';
     }
 }
 
@@ -90,11 +93,10 @@ function appendPre(message) {
  * Print names and IDs of each document in files.
  */
 function printDocInfo(files) {
-    appendPre('Matching documents:\n');
     if (files && files.length > 0) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
-            appendPre(`Document ${i}: "${file.name}" (${file.id})`);
+            appendPre(`ID: ${file.id} ("${file.name}")`);
         }
     } else {
         appendPre('No matching documents found.');
@@ -159,16 +161,19 @@ function findOrCreateDoc(title) {
     findDocs(title).then(function (files) {
         if (files.length == 0) {
             createDoc(title).then(function (docId) {
-                addNotesToDoc(docId);
+                urlForm.style.display = 'block';
+                documentId = docId;
             });
         } else if (files.length == 1) {
-            // Add to existing file
+            appendPre('Using the following document for notes:');
             printDocInfo(files);
-            addNotesToDoc(files[0].id);
+            urlForm.style.display = 'block';
+            documentId = files[0].id;
         } else {
             // Complain; too many files
-            appendPre('Error: too many matching documents; please delete all but one');
+            appendPre('Error: multiple matching documents; please delete all but one:');
             printDocInfo(files);
+            urlForm.style.display = 'none';
         }
     });
 }
@@ -176,7 +181,10 @@ function findOrCreateDoc(title) {
 /**
  * Insert notes at the start of document (with a header for the URL).
  */
-function addNotesToDoc(docId) {
+function addNotesToDoc(event) {
+    appendPre('\nAdding notes to doc...');
+    event.preventDefault();  // Don't submit the form
+
     // Configure AJAX requests to go through CORS Anywhere proxy
     $.ajaxPrefilter(function (options) {
         if (options.crossDomain && $.support.cors) {
@@ -185,8 +193,8 @@ function addNotesToDoc(docId) {
         }
     });
 
-    // Get contents of URL, and add summary into document w/ docId
-    $.get('https://en.wikipedia.org/wiki/Cross-origin_resource_sharing',
+    // Get contents of URL, and add summary into document w/ documentId
+    $.get(urlForm.url.value,
         function (data) {
             var headingMap = {H1: 'HEADING_1', H2: 'HEADING_2', H3: 'HEADING_3'};
             // $($.parseHTML(data)) is safer than $(data) with spaces, etc.
@@ -222,15 +230,20 @@ function addNotesToDoc(docId) {
 
             // Make a batchUpdate call containing the collected requests
             gapi.client.docs.documents.batchUpdate({
-                documentId: docId,
+                documentId: documentId,
                 resource: {
                     requests: requests
                 }
             }).then(function (response) {
-                appendPre(`Added content to doc with id ${docId}`);
+                // Clear out the URL input for next use on full success
+                // but leave for editing in case of any error
+                urlForm.url.value = '';
+                appendPre('Notes successfully added.');
             }, function (response) {
-                appendPre(`Error (batchUpdate for ${docId}): ${response.result.error.message}`);
+                appendPre('Error (batchUpdate): ' + response.result.error.message);
             });
         }
-    );
+    ).fail(function(jqXHR, textStatus, error) {
+        appendPre(`Error (get): ${error} (status: ${textStatus})`);
+    });
 }

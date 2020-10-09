@@ -9,6 +9,10 @@
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize-button" style="display: none;">Authorize</button>
     <button id="signout-button" style="display: none;">Sign Out</button>
+    <form id="url-form" onsubmit="addNotesToDoc(event)">
+      <input type="text" name="url" id="url-input" placeholder="Enter one URL to summarize" required maxlength="200" size="80"></input><br>
+      <input type="submit" value="Send">
+    </form>
     <pre id="content"></pre>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="script.js"></script>
