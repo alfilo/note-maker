@@ -196,27 +196,32 @@ function addNotesToDoc(event) {
     // Get contents of URL, and add summary into document w/ documentId
     $.get(urlForm.url.value,
         function (data) {
-            var headingMap = {H1: 'HEADING_1', H2: 'HEADING_2', H3: 'HEADING_3'};
             // $($.parseHTML(data)) is safer than $(data) with spaces, etc.
             // context is null: use new document; keepScripts is false
             var $data = $($.parseHTML(data, null, false));
-            var $headings = $data.find('h1, h2, h3');
+            var $tags = $data.find('h1, h2, h3, h4, strong, b, em, i, mark');
 
             // Make an array of requests in reverse order, so we always
             // insert text at the beginning and then modify its styling
-            var requests = $headings.map(function () {
-                var itRequests = {
+            var requests = $tags.map(function () {
+                // Squash all whitespaces, including newlines, into a single ' '
+                var tagText = this.textContent.trim().replace(/\s+/g, ' ');
+                if (!tagText) return null;  // Skip whitespace-only tagText
+
+                var itRequest = {  // InsertTextRequest
                     insertText: {
-                        text: this.textContent.trim() + '\n',
+                        text: tagText + '\n',
                         location: {   // No segmentId is body
                             index: 1  // Treated as 'segmentId: ""'
                         }
                     }
                 };
-                var upsRequests = {
+                var upsRequest = {  // UpdateParagraphStyleRequest
                     updateParagraphStyle: {
                         paragraphStyle: {
-                            namedStyleType: headingMap[this.tagName]
+                            // Convert H tags to corresponding Google headings
+                            namedStyleType: this.tagName[0] === 'H' ?
+                                'HEADING_' + this.tagName[1] : 'NORMAL_TEXT'
                         },
                         range: {
                             startIndex: 1,  // No segmentId is body
@@ -225,7 +230,29 @@ function addNotesToDoc(event) {
                         fields: "namedStyleType"
                     }
                 };
-                return [upsRequests, itRequests];
+                if (this.tagName[0] !== 'H') {
+                    // For non-headings, set text styles
+                    var styleMap = {
+                        STRONG: 'bold', B: 'bold',
+                        EM: 'italic', I: 'italic',
+                        MARK: 'underline'
+                    };
+
+                    var utsRequest = {  // UpdateTextStyleRequest
+                        updateTextStyle: {
+                            textStyle: {
+                                [styleMap[this.tagName]]: true
+                            },
+                            range: {
+                                startIndex: 1,
+                                endIndex: tagText.length + 1
+                            },
+                            fields: styleMap[this.tagName]
+                        }
+                    };
+                    return [utsRequest, upsRequest, itRequest];
+                }
+                return [upsRequest, itRequest];  // Headings (no text-style update)
             }).get().reverse();
 
             // Make a batchUpdate call containing the collected requests
