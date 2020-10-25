@@ -1,7 +1,3 @@
-// (OAuth 2.0) Client ID and API key from the Developer Console
-var CLIENT_ID = '<YOUR_CLIENT_ID>';
-var API_KEY = '<YOUR_API_KEY>';
-
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
     'https://docs.googleapis.com/$discovery/rest?version=v1'];
@@ -17,11 +13,22 @@ var documentId;
 var authorizeButton = document.getElementById('authorize-button');
 var signoutButton = document.getElementById('signout-button');
 var urlForm = document.getElementById('url-form');
+var keyForm = document.getElementById('key-form');
+keyForm.style.display = 'none';  // Begin with keyForm hidden
 
 /**
- *  On load, called to load the auth2 library and API client library.
+ *  On load, displays keyForm.
  */
 function handleClientLoad() {
+    keyForm.style.display = 'block';
+}
+
+/**
+ *  On keyForm submit, calls initCient to
+ *  load the auth2 library and API client library.
+ */
+function handleKeys(event) {
+    event.preventDefault();  // Don't submit the form
     gapi.load('client:auth2', initClient);
 }
 
@@ -30,8 +37,8 @@ function handleClientLoad() {
  */
 function initClient() {
     gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
+        apiKey: keyForm['api-key'].value,
+        clientId: keyForm['client-id'].value,
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES
     }).then(function () {
@@ -42,6 +49,7 @@ function initClient() {
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
+        keyForm.style.display = 'none';
     }, function (error) {
         appendPre(JSON.stringify(error, null, 2));
     });
