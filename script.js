@@ -101,7 +101,7 @@ function appendPre(message) {
  * Print names and IDs of each document in files.
  */
 function printDocInfo(files) {
-    if (files && files.length > 0) {
+    if (files && files.length) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             appendPre(`ID: ${file.id} ("${file.name}")`);
@@ -167,12 +167,12 @@ function createDoc(title) {
  */
 function findOrCreateDoc(title) {
     findDocs(title).then(function (files) {
-        if (files.length == 0) {
+        if (!files.length) {
             createDoc(title).then(function (docId) {
                 urlForm.style.display = 'block';
                 documentId = docId;
             });
-        } else if (files.length == 1) {
+        } else if (files.length === 1) {
             appendPre('Using the following document for notes:');
             printDocInfo(files);
             urlForm.style.display = 'block';
