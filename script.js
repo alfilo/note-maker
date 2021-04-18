@@ -1,3 +1,5 @@
+"use strict";
+
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
     'https://docs.googleapis.com/$discovery/rest?version=v1'];
