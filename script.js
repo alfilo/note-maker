@@ -369,7 +369,7 @@ function organizeObj(response) {
     var h3, a, r, ul, className, li;
     for (let i = 0; i < arr.length; i++) {
         className = arr[i].toLowerCase().replace(" ", "-")
-        ul = $("<ul>").appendTo($("#course"));
+        ul = $("<ul>").appendTo($("#course-columns"));
         ul.wrap(`<div class="${className}"></div>`);
         h3 = $("<h3>").html(arr[i]).appendTo($(`.${className}`));
         for (let j = 0; j < Object.keys(response).length; j++) {

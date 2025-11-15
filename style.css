@@ -51,7 +51,7 @@ h1, h3, p, ul {
 }
 
 @media only screen and (min-width: 500px) {
-    #course {
+    #course-columns {
         column-count: 2;
         column-rule: 1px solid rgba(10,30,255,.6);
     }
