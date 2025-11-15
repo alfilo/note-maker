@@ -1,0 +1,135 @@
+{
+    "biol214" : {
+        "cname" : "Cell and Molecular Biology",
+        "college" : "Cayuga Community College",
+        "semester" : "Fall 2024",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1GWaSnC46oMeBVCl0pM6QN25E_9XzqUqpG2kiroxe1HU/view?usp=sharing"
+    },
+    "biol131" : {
+        "cname" : "Anatomy and Physiology I",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Fall 2023",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1p5LlVs5kgKG5-T3CUjd0qlsKOZ9AHa2UM-ICZKyg4xc/view?usp=sharing"
+    },
+    "biol132" : {
+        "cname" : "Anatomy and Physiology II",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Spring 2024",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1EH4CBV7n69D7YmmzPIyFl6l10wAfcWg6JL5SAjOck4Y/view?usp=sharing"
+    },
+    "chem107" : {
+        "cname" : "Honors General Chemistry I",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Fall 2023",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1ynX8fNiPWtCcSiuZH3kkr1PcnDa2yZWCZisj5Y_qGiU/view?usp=sharing"
+    },
+    "chem108" : {
+        "cname" : "Honors General Chemistry II",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Spring 2024",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1pEqSxQ4MuMqFm8FX_VlmZYOJYGwMeq5RDO2nR5baCgo/view?usp=sharing"
+    },
+    "psyc209" : {
+        "cname" : "Abnormal Psychology",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Fall 2023",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1fFMeGiMi2w7VyMBTWj2RRNsfpnhJ0kOZWVbqexb0E4k/view?usp=sharing"
+    },
+    "soci101" : {
+        "cname" : "Introduction to Sociology",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Spring 2024",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1XTgSyXp8FymsR8g79qjbZi-y0-CFFdWFIts8Xv-ZFXY/view?usp=sharing"
+    },
+    "cdsc101" : {
+        "cname" : "Introduction to Chemical Dependency Counseling",
+        "college" : "Tompkins Cortland Community College",
+        "semester" : "Spring 2025",
+        "format" : "Online (synchronous)",
+        "href" : "https://docs.google.com/document/d/1oSmLdLIBObsp_WaLTuxazycoDTHvKme_W081hPI2FwI/view?usp=sharing"
+    },
+    "phys103" : {
+        "cname" : "General Physics I",
+        "college" : "Cayuga Community College",
+        "semester" : "Fall 2024",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1uNVUh596pikKpy78zOswaXP9nq9N4nYsgZIxEztodx4/view?usp=sharing"
+    },
+    "phys104" : {
+        "cname" : "General Physics II",
+        "college" : "Cayuga Community College",
+        "semester" : "Spring 2025",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1hzSLESOPq9gEp_uK2nU9XxR0Ff2qkJNXKymLgfnjx0A/view?usp=sharing"
+    },
+    "engl101" : {
+        "cname" : "Freshman English I",
+        "college" : "Cayuga Community College",
+        "semester" : "Fall 2024",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1KwvgRGTq1Nc99233bP3E0MU5Jr-AhXMWwMRxje7B-Bk/view?usp=sharing"
+    },
+    "engl102" : {
+        "cname" : "Freshman English II",
+        "college" : "Cayuga Community College",
+        "semester" : "Spring 2025",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1X9ntQ7USCzxax7kLL_D1R_yHlCMBW303OD744r2NLh0/view?usp=sharing"
+    },
+    "psyc212" : {
+        "cname" : "Developmental Psychology: Life Span",
+        "college" : "Cayuga Community College",
+        "semester" : "Fall 2024",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/1aSJ8zkwmHaayDQRQ5cdkvYtoiIKoCyhkQTNi2oma344/view?usp=sharing"
+    },
+    "biol216" : {
+        "cname" : "General Microbiology",
+        "college" : "Cayuga Community College",
+        "semester" : "Spring 2025",
+        "format" : "Online",
+        "href" : "https://docs.google.com/document/d/15_XXXha9uhWMksk1eBfyBlK2NGRqFhfBSfeREpG0bvI/view?usp=sharing"
+    },
+    "biol200" : {
+        "cname" : "Molecular Biology",
+        "college" : "McGill University",
+        "semester" : "Fall 2025",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1-W8MxR7qrZ2oFpOa314rNRyNyYqMIB4gxQGLRTh9QRk/view?usp=sharing"
+    },
+    "chem212" : {
+        "cname" : "Organic Chemistry I",
+        "college" : "McGill University",
+        "semester" : "Fall 2025",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1kxf7V2_3Q95smx8lIn3Bu2L7OsD_Yzxbg3P1nleWiSA/view?usp=sharing"
+    },
+    "nsci200" : {
+        "cname" : "Introduction to Neuroscience I",
+        "college" : "McGill University",
+        "semester" : "Fall 2025",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1eItSsjACuVkQCyrCKf2s-fMsJGBzN1hGPiPySUSSO34/view?usp=sharing"
+    },
+    "psyc215" : {
+        "cname" : "Social Psychology",
+        "college" : "McGill University",
+        "semester" : "Fall 2025",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1OeyMQB1bh0V6EpYSruYYuCV1UDQK0TGgzMUhka1SQVg/view?usp=sharing"
+    },
+    "psyc204" : {
+        "cname" : "Introduction to Psychological Statistics",
+        "college" : "McGill University",
+        "semester" : "Fall 2025",
+        "format" : "In-person",
+        "href" : "https://docs.google.com/document/d/1C1W-duOBbUvsb-b888UTJ4JSE0eOz2GQTasIKmrvrFg/view?usp=sharing"
+    }
+}

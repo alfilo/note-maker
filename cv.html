@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+  <head>
+    <title>Writings</title>
+    <meta charset="utf-8" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="header">
+        <img src="menu.png" id="menu" onclick="toggleMenu()">
+        <div id="page-header">
+            <h1>Alina's CV</h1>
+            <p id="quote">“Intelligence without ambition is a bird without wings.”</p>
+            <!--Quote credit to Walter H. Cottingham-->
+        </div>
+        <div id="menu-links" style="display:none;">
+            <a href="index.html">About</a><br>
+            <a href="cv.html">CV</a><br>
+            <a href="course-notes.html">Course Notes</a><br>
+            <a href="writings.html">Writings</a><br>
+            <a href="recipes.html">Recipes</a><br>
+            <a href="contact.html">Contact</a><br>
+        </div>
+    </div>
+    <div class="pdf">
+        <embed class="pdf" javascript="allow"
+            src="alina-loginov-cv.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=fitH">
+    </div>
+    <div id="gdoc"></div>
+    <pre id="content"></pre>
+  </body>
+</html>

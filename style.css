@@ -1,0 +1,68 @@
+h1, h3, p, ul {
+    margin: 15px;
+}
+
+.iframe {
+    position: relative;
+    height: 50em;
+    width: 100%;
+    border-radius: 10px;
+    border-color: rgba(10,30,255,.6)
+}
+
+.header {
+    background-image: url("header.jpg");
+    color: aliceblue;
+    border-radius: 10px;
+    width: 100%;
+    height: 10em;
+    text-align: center;
+    position: relative;
+}
+
+#menu-links {
+    background-color: none;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+}
+
+#menu-links a {
+    color: aliceblue;
+    line-height: 1.5em;
+}
+
+.header h1 {
+    padding-top: 30px;
+}
+
+#quote {
+    font-style: italic;
+    border: 2px;
+    border-color: aliceblue;
+}
+
+#menu {
+    background: none;
+    position: absolute;
+    height: 15%;
+    padding: 10px;
+    margin-left: -50%;
+    background: rgba(0,0,0,40%);
+}
+
+@media only screen and (min-width: 500px) {
+    #course {
+        column-count: 2;
+        column-rule: 1px solid rgba(10,30,255,.6);
+    }
+}
+
+.pdf {
+    width: 100%;
+    aspect-ratio: 2/3;
+}
+
+@keyframes slide-in {
+    from {margin-left: -100%}
+    to {margin-left: 0%}
+}

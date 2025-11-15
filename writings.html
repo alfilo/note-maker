@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+  <head>
+    <title>Writings</title>
+    <meta charset="utf-8" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="header">
+        <img src="menu.png" id="menu" onclick="toggleMenu()">
+        <div id="page-header">
+            <h1>Alina's Writings</h1>
+            <p id="quote">"Writing, for me, is simply thinking through my fingers."</p>
+            <!--Quote credit to Isaac Asimov-->
+        </div>
+        <div id="menu-links" style="display:none;">
+            <a href="index.html">About</a><br>
+            <a href="cv.html">CV</a><br>
+            <a href="course-notes.html">Course Notes</a><br>
+            <a href="writings.html">Writings</a><br>
+            <a href="recipes.html">Recipes</a><br>
+            <a href="contact.html">Contact</a><br>
+        </div>
+    </div>
+    <div class="pwd">
+        <p>Enter password</p>
+        <input type="text" name="password" id="pwd" placeholder="Enter the password" required maxlength="200" size="20"></input><br>
+        <button id="checkpwd" onclick="handlePwd()">Check</button>
+    </div>
+    <div id="gdoc"></div>
+    <pre id="content"></pre>
+  </body>
+</html>

@@ -1,26 +1,85 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
 <html>
   <head>
-    <title>Note Maker</title>
+    <title>About</title>
     <meta charset="utf-8" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="script.js"></script>
   </head>
   <body>
-    <p>Note Maker</p>
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: none;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
-    <form id="key-form" onsubmit="handleKeys(event)">
-      <input type="text" name="client-id" id="client-id-input" placeholder="Enter your Client ID" required maxlength="200" size="80"></input><br>
-      <input type="text" name="api-key" id="api-key-input" placeholder="Enter your API key" required maxlength="200" size="80"></input><br>
-      <input type="submit" value="Send">
-    </form>
-    <form id="url-form" onsubmit="addNotesToDoc(event)">
-      <input type="text" name="url" id="url-input" placeholder="Enter one URL to summarize" required maxlength="200" size="80"></input><br>
-      <input type="submit" value="Send">
-    </form>
+    <div class="header">
+        <img src="menu.png" id="menu" onclick="toggleMenu()">
+        <div id="page-header">
+            <h1>About Me</h1>
+            <p id="quote">“Life is not about who you once were, it’s about who you are
+            now and who you have the potential to be.”</p>
+            <!--Quote credit to https://quotesaboutyou.com/quotes-about-who-you-are/-->
+        </div>
+        <div id="menu-links" style="display:none;">
+            <a href="index.html">About</a><br>
+            <a href="cv.html">CV</a><br>
+            <a href="course-notes.html">Course Notes</a><br>
+            <a href="writings.html">Writings</a><br>
+            <a href="recipes.html">Recipes</a><br>
+            <a href="contact.html">Contact</a><br>
+        </div>
+    </div>
+    <div class="pwd">
+        <h1>Who I am</h1>
+        <p>I'm a U1 student at McGill University and a (relatively) new arrival
+            in Montréal.  I love learning and practicing languages (if you speak
+            French and/or Spanish and want to have a chat I'd love that), and
+            of course meeting new people and gaining new perspectives on the world.
+            I have to admit that most of my time now is going towards studying and
+            climbing, but I'm always looking for something fun to do to meet more
+            people.  I'm an avid cook (recipes page coming soon, if there's any code
+            geeks here please help, I haven't figured out a workaround for a 403 error
+            on an embedded Google Drive folder).  I love exploring new recipes
+            from around the world and would love to cook with someone.  I also love
+            to craft, mostly origami and crochet, though I also do some photography,
+            sketching, beading, and sewing.
+        </p>
+        <h3>Research</h3>
+        <p>Since the age of eight, I've been obtaining grants and working on
+            original research projects exploring a wide variety of topics.
+            My research projects include:  Exploring the effects of
+            diet on microvascular inflammation (independent project; mouse
+            models approved by Cornell University IRB), how compost percentages
+            and types affect plant growth to form an optimal growth mixture for
+            watershed protection (SoilNow Lab, Cornell University), and how
+            enrichment changes mouse vocalizations and social interactions
+            (Tschida Lab, Cornell University).  I've also written a research
+            review (currently unpublished) about the negative symptoms of
+            schizophrenia and recent advances in medication options for
+            their treatment (Tompkins Cortland Community College).
+        </p>
+        <h3>My other hobbies</h3>
+        <ul>
+            <li>Studying (yes, I do consider this a hobby)</li>
+            <li>Playing music (violin and voice)</li>
+            <li>Listening to heavy metal</li>
+            <li>Coding and web design</li>
+            <li>Discussing philosophy and/or politics</li>
+            <li>Tutoring</li>
+        </ul>
+        <h3>More on tutoring</h3>
+        <p>In my hometown, I used to do a lot of tutoring, and to be honest, I
+            miss it so much.  I tutored English, Spanish, math (from prealgebra to
+            calculus I), and science (earth science, biology, chemistry, physics).
+            I usually think through problems in a different way, and often a
+            different perspective is all you need to understand a difficult concept.
+            If you're interested of know someone who would benefit, please DM me!
+            <a href="https://www.instagram.com/alinaloginov25/">@alinaloginov25</a></li>
+        </p>
+        <h3>My plans for the future</h3>
+        <p>Well, number one plan on this list has to be to get better at my French ...
+            I'm hoping to transfer into the Neuroscience program at McGill and perform
+            original research projects, then hopefully get into graduate school and
+            eventually into the field doing research in neuroscience.
+        </p>
+    </div>
     <pre id="content"></pre>
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="script.js"></script>
-    <script defer onload="handleClientLoad()" src="https://apis.google.com/js/api.js"></script>
   </body>
 </html>

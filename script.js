@@ -16,14 +16,17 @@ var authorizeButton = document.getElementById('authorize-button');
 var signoutButton = document.getElementById('signout-button');
 var urlForm = document.getElementById('url-form');
 var keyForm = document.getElementById('key-form');
-keyForm.style.display = 'none';  // Begin with keyForm hidden
+
+var counter = 0;
+var response;
+//keyForm.style.display = 'none';  // Begin with keyForm hidden
 
 /**
  *  On load, displays keyForm.
  */
-function handleClientLoad() {
-    keyForm.style.display = 'block';
-}
+//function handleClientLoad() {
+//    keyForm.style.display = 'block';
+//}
 
 /**
  *  On keyForm submit, calls initCient to
@@ -283,4 +286,101 @@ function addNotesToDoc(event) {
     ).fail(function(jqXHR, textStatus, error) {
         appendPre(`Error (get): ${error} (status: ${textStatus})`);
     });
+}
+
+function toggleMenu() {
+    counter++;
+    var menu = document.getElementById("menu-links");
+    var header = document.getElementById("page-header");
+    if (counter % 2 === 1) {
+        menu.style.display = "block";
+        menu.style.animation = "1s linear slide-in";
+        header.style.display = "none";
+    } else {
+        header.style.display = "block";
+        header.style.animation = "1s linear slide-in"
+        menu.style.display = "none";
+    };
+
+}
+
+var linkArr;
+
+function handlePwd() {
+    const inputPwd = $("#pwd").val();
+    if (inputPwd === "k") {
+        var gdocDiv = $("#gdoc");
+        var iframe;
+        for (var i = 0; i < linkArr.length; i++) {
+            iframe = gdocDiv.append(`<iframe src="${linkArr[i]}" class="iframe"
+                    allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>`);
+        };
+        $(".pwd").css("display","none");
+    } else {
+        $("body").append("<p>").text("Sorry, try again");
+    }
+}
+
+window.onload = function() {
+    if (window.location.href.includes("writings")) {
+        linkArr = ["https://docs.google.com/document/d/15DkoQkqqjwtwyqcUKQ4jupOY6JkgPTtQq5Y_pjdPjmY/edit?tab=t.0",
+        "https://docs.google.com/document/d/15DkoQkqqjwtwyqcUKQ4jupOY6JkgPTtQq5Y_pjdPjmY/edit?tab=t.0"];
+    } else if (window.location.href.includes("course-notes.html?courseID=")) {
+        async function getObj() {
+            response = await (await fetch("./course-notes.json")).json();
+            objToHTML(response);
+        }
+        getObj();
+    } else if (window.location.href.includes("course-notes.html")) {
+        async function getObj() {
+            response = await (await fetch("./course-notes.json")).json();
+            // search(response);
+            organizeObj(response);
+        }
+        getObj();
+    }
+}
+
+function objToHTML(obj) {
+    var loc = window.location.href
+    var courseID = loc.slice(loc.length-7, loc.length)
+    document.getElementById("main-page").style.display = "none";
+    var h1 = $("<h1>").html(courseID.toUpperCase());
+    var h3 = $("<h3>").html("Course Information")
+    var p = $("<p>").html(obj[courseID].college + ", " + obj[courseID].semester + ", " + obj[courseID].format)
+    var iframe = $("<iframe>").addClass("iframe").attr("src", obj[courseID].href);
+    $("#course").append(h1).append(h3).append(p).append(iframe);
+}
+
+function search(response) {
+    var input = document.getElementById("course-search").value;
+    var ul = $("<ul>").appendTo($("#course"));
+    var li;
+    for (let i = 0; i < Object.keys(response).length; i++) {
+        if (Object.keys(response)[i] == input || Object.keys(response)[i].cname == input) {
+            li = $("<li>").html(response[i].cname);
+            ul.append(li);
+        }
+    }
+}
+
+function organizeObj(response) {
+    var arr = ["Fall 2023", "Spring 2024", "Fall 2024", "Spring 2025", "Fall 2025", "Winter 2026"]
+    var h3, a, r, ul, className, li;
+    for (let i = 0; i < arr.length; i++) {
+        className = arr[i].toLowerCase().replace(" ", "-")
+        ul = $("<ul>").appendTo($("#course"));
+        ul.wrap(`<div class="${className}"></div>`);
+        h3 = $("<h3>").html(arr[i]).appendTo($(`.${className}`));
+        for (let j = 0; j < Object.keys(response).length; j++) {
+            r = Object.keys(response)[j].toString();
+            if (response[r].semester == arr[i]) {
+                console.log("passed " + r, response[r].semester)
+                a = $("<a>").attr("href", window.location.href + "?courseID=" + r)
+                    .html(response[r].cname)
+                    .appendTo($(`.${className}`));
+                a.wrap(ul).wrap("<li></li>");
+            } else console.log("failed: " + r, response[r].semester);
+        }
+    }
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+  <head>
+    <title>Writings</title>
+    <meta charset="utf-8" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="header">
+        <img src="menu.png" id="menu" onclick="toggleMenu()">
+        <div id="page-header">
+            <h1>My Recipes</h1>
+            <p id="quote">"Food is symbolic of love when words are inadequate."</p>
+            <!--Quote credit to Alan D. Wolfelt-->
+        </div>
+        <div id="menu-links" style="display:none;">
+            <a href="index.html">About</a><br>
+            <a href="cv.html">CV</a><br>
+            <a href="course-notes.html">Course Notes</a><br>
+            <a href="writings.html">Writings</a><br>
+            <a href="recipes.html">Recipes</a><br>
+            <a href="contact.html">Contact</a><br>
+        </div>
+    </div>
+    <div class="gdrive">
+        <h3>Someone with more coding knowledge than me ... help ...</h3>
+        <p>So I read on StackOverflow that this is a known problem:  When
+            you try to embed a Google Drive folder in a webpage, even if
+            the sharing permissions are set to anyone online can view,
+            it'll give you a 403 error.  I have over three dozen recipes
+            in this folder and don't want to add them separately or in
+            a giant list, so I'm really hoping there's an alternative to
+            this.  Any ideas?  Thanks!</p>
+        <iframe src="https://drive.google.com/u/0/19K0PMtddk2v8diTVocqC-dKBL3q8M4B7?usp=sharing" class="iframe"></iframe>
+    </div>
+    <pre id="content"></pre>
+  </body>
+</html>

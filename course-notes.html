@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+  <head>
+    <title>Course Notes</title>
+    <meta charset="utf-8" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="header">
+        <img src="menu.png" id="menu" onclick="toggleMenu()">
+        <div id="page-header">
+            <h1>My Course Notes</h1>
+            <p id="quote">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
+            <!--Quote credit to https://www.uncommonquotes.com/study-quotes/-->
+        </div>
+        <div id="menu-links" style="display:none;">
+            <a href="index.html">About</a><br>
+            <a href="cv.html">CV</a><br>
+            <a href="course-notes.html">Course Notes</a><br>
+            <a href="writings.html">Writings</a><br>
+            <a href="recipes.html">Recipes</a><br>
+            <a href="contact.html">Contact</a><br>
+        </div>
+    </div>
+    <div id="main-page">
+        <h1>What's in the notes?</h1>
+        <p>These are notes from courses I've taken at three different colleges:
+            McGill University, Cayuga Community College, and Tompkins Cortland
+            Community College. The way that I use them is as a group study tool,
+            so that you can study with someone who hasn't yet taken the course.
+            They are comprehensive and long, but they contain all the necessary
+            information to succeed in tests.  Some of these notes are not fully
+            complete (for example, if I'm currently taking that course), but the
+            notes from TC3 and CCC are completed.
+        </p>
+        <!-- <h3><label for="course-search">Search by course code, name, or college</label></h3>
+        <input type="search" id="course-search" name="course-search"> -->
+    </div>
+    <div id="course"></div>
+    <pre id="content"></pre>
+  </body>
+</html>

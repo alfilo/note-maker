@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Note Maker</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <p>Note Maker</p>
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="signout-button" style="display: none;">Sign Out</button>
+    <form id="key-form" onsubmit="handleKeys(event)">
+      <input type="text" name="client-id" id="client-id-input" placeholder="Enter your Client ID" required maxlength="200" size="80"></input><br>
+      <input type="text" name="api-key" id="api-key-input" placeholder="Enter your API key" required maxlength="200" size="80"></input><br>
+      <input type="submit" value="Send">
+    </form>
+    <form id="url-form" onsubmit="addNotesToDoc(event)">
+      <input type="text" name="url" id="url-input" placeholder="Enter one URL to summarize" required maxlength="200" size="80"></input><br>
+      <input type="submit" value="Send">
+    </form>
+    <pre id="content"></pre>
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <script defer onload="handleClientLoad()" src="https://apis.google.com/js/api.js"></script>
+  </body>
+</html>
